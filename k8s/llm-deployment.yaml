@@ -22,7 +22,7 @@ metadata:
   name: ollama-deployment
   namespace: llm-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: ollama
@@ -41,8 +41,8 @@ spec:
               memory: "512Mi"
               cpu: "500m"
             limits:
-              memory: "2.5Gi"
-              cpu: "2"
+              memory: "2Gi"
+              cpu: "1"
 
 ---
 apiVersion: apps/v1
