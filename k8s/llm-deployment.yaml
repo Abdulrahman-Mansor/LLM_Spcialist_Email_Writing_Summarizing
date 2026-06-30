@@ -13,7 +13,7 @@ metadata:
   name: llm-config
   namespace: llm-app
 data:
-  OLLAMA_URL: "http://ollama-service:11434"
+  OLLAMA_URL: "http://ollama-service.llm-app.svc.cluster.local:11434"
 
 ---
 apiVersion: apps/v1
