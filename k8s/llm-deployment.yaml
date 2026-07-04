@@ -7,44 +7,6 @@ metadata:
     name: llm-app
 
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: llm-config
-  namespace: llm-app
-data:
-  OLLAMA_URL: "http://ollama-service.llm-app.svc.cluster.local:11434"
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ollama-deployment
-  namespace: llm-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: ollama
-  template:
-    metadata:
-      labels:
-        app: ollama
-    spec:
-      containers:
-        - name: ollama
-          image: ollama/ollama:latest
-          ports:
-            - containerPort: 11434
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "250m"
-            limits:
-              memory: "2Gi"
-              cpu: "2"
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -62,35 +24,16 @@ spec:
     spec:
       containers:
         - name: api
-          image: omarhussein2111/ollama_email_service:latest
+          image: omarhussein2111/llm-model:latest
           ports:
             - containerPort: 8000
-          env:
-            - name: OLLAMA_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: llm-config
-                  key: OLLAMA_URL
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
               memory: "512Mi"
               cpu: "500m"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: ollama-service
-  namespace: llm-app
-spec:
-  selector:
-    app: ollama
-  ports:
-    - protocol: TCP
-      port: 11434
-      targetPort: 11434
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
 
 ---
 apiVersion: v1
@@ -104,5 +47,5 @@ spec:
   type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 8000
+      port: 80
       targetPort: 8000
