@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME           = "model-api"
+        APP_NAME           = "llm-model"
         DOCKERHUB_REPO     = "omarhussein2111/model-api"
         GITOPS_REPO        = "git@github.com:Eng-Omar-Hussein/LLM_Spcialist_Email_Writing_Summarizing.git"
         GITOPS_DIR         = "k8s"
@@ -283,7 +283,7 @@ pipeline {
                     passwordVariable: 'GITHUB_TOKEN'
                 )]) {
                     sh '''
-                        sed -i -E "s|(^[[:space:]]*image: )omarhussein2111/.*|\\1${DOCKERHUB_REPO}:${IMAGE_TAG}|g" k8s/deployment.yaml
+                        sed -i -E "s|(^[[:space:]]*image: )omarhussein2111/.*|\\1${DOCKERHUB_REPO}:${IMAGE_TAG}|g" k8s/llm-deployment.yaml
 
                         git config user.email "omarhussein2111@gmail.com"
                         git config user.name "Eng-Omar-Hussein"
@@ -295,7 +295,7 @@ pipeline {
                             exit 0
                         fi
 
-                        git commit -m "ci: bump model-api image to ${IMAGE_TAG}"
+                        git commit -m "ci: bump llm-model image to ${IMAGE_TAG}"
 
                         git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/Eng-Omar-Hussein/LLM_Spcialist_Email_Writing_Summarizing.git
 
