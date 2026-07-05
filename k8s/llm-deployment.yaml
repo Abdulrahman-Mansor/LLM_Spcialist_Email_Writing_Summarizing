@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: omarhussein2111/llm-model:5-3ae64cc
+          image: omarhussein2111/llm-model:7-5c81a86
           ports:
             - containerPort: 8000
           resources:
